@@ -2,6 +2,7 @@ using System;
 using System.Data;
 using System.Windows.Forms;
 using Npgsql;
+using Microsoft.Data.SqlClient;
 namespace WinFormsApp
 {
     public partial class Form1 : Form
@@ -15,7 +16,7 @@ namespace WinFormsApp
         {
             DatabaseHelper dbHelper = new DatabaseHelper();
 
-            using (NpgsqlConnection conn = dbHelper.GetConnection())
+            using (SqlConnection conn = dbHelper.GetConnection())
             {
                 try
                 {
@@ -23,7 +24,7 @@ namespace WinFormsApp
 
                     string query = "SELECT * FROM SinhVien";
 
-                    NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(query, conn);
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
                     DataTable dt = new DataTable();
 
                     adapter.Fill(dt);
@@ -59,7 +60,7 @@ namespace WinFormsApp
         private void btnThem_Click(object sender, EventArgs e)
         {
             DatabaseHelper dbHelper = new DatabaseHelper();
-            using (NpgsqlConnection conn = dbHelper.GetConnection())
+            using (SqlConnection conn = dbHelper.GetConnection())
             {
                 try
                 {
@@ -68,7 +69,7 @@ namespace WinFormsApp
                     // Input
                     string query = "INSERT INTO SinhVien (MaSV, HoTen, NgaySinh, GioiTinh, Lop) VALUES (@MaSV, @HoTen, @NgaySinh, @GioiTinh, @Lop)";
 
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         // Gan gia tri
                         cmd.Parameters.AddWithValue("@MaSV", txtMaSV.Text);
@@ -95,7 +96,7 @@ namespace WinFormsApp
         private void btnXoa_Click(object sender, EventArgs e)
         {
             DatabaseHelper dbHelper = new DatabaseHelper();
-            using (NpgsqlConnection conn = dbHelper.GetConnection())
+            using (SqlConnection conn = dbHelper.GetConnection())
             {
                 try
                 {
@@ -104,7 +105,7 @@ namespace WinFormsApp
                     // Input
                     string query = "DELETE FROM SinhVien WHERE MaSV = @MaSV";
 
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         // Gán giá trị
                         cmd.Parameters.AddWithValue("@MaSV", txtMaSV.Text);
@@ -129,7 +130,7 @@ namespace WinFormsApp
         private void btnSua_Click(object sender, EventArgs e)
         {
             DatabaseHelper dbHelper = new DatabaseHelper();
-            using (NpgsqlConnection conn = dbHelper.GetConnection())
+            using (SqlConnection conn = dbHelper.GetConnection())
             {
                 try
                 {
@@ -137,7 +138,7 @@ namespace WinFormsApp
 
                     string query = "UPDATE SinhVien SET HoTen = @HoTen, Lop = @Lop WHERE MaSV = @MaSV";
 
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@MaSV", txtMaSV.Text);
                         cmd.Parameters.AddWithValue("@HoTen", txtTen.Text);
