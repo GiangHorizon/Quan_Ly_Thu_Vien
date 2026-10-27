@@ -21,17 +21,13 @@ namespace WinFormsApp
                 {
                     conn.Open();
 
-                    // Câu lệnh SQL lấy toàn bộ dữ liệu bảng SinhVien
                     string query = "SELECT * FROM SinhVien";
 
-                    // NpgsqlDataAdapter giúp cầu nối dữ liệu từ DB về C#
                     NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(query, conn);
                     DataTable dt = new DataTable();
 
-                    // Đổ dữ liệu lấy được vào DataTable
                     adapter.Fill(dt);
 
-                    // Gán DataTable làm nguồn dữ liệu cho DataGridView
                     dgvSinhVien.DataSource = dt;
                 }
                 catch (Exception ex)
@@ -69,23 +65,23 @@ namespace WinFormsApp
                 {
                     conn.Open();
 
-                    // Câu lệnh SQL INSERT sử dụng tham số (@MaSV, @HoTen...)
+                    // Input
                     string query = "INSERT INTO SinhVien (MaSV, HoTen, NgaySinh, GioiTinh, Lop) VALUES (@MaSV, @HoTen, @NgaySinh, @GioiTinh, @Lop)";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                     {
-                        // Gán giá trị từ giao diện vào tham số
+                        // Gan gia tri
                         cmd.Parameters.AddWithValue("@MaSV", txtMaSV.Text);
                         cmd.Parameters.AddWithValue("@HoTen", txtTen.Text);
                         cmd.Parameters.AddWithValue("@NgaySinh", dtbNgaySinh.Value.Date);
                         cmd.Parameters.AddWithValue("@GioiTinh", GioiTinh.Text);
                         cmd.Parameters.AddWithValue("@Lop", txtLop.Text);
 
-                        // Thực thi lệnh thay đổi dữ liệu
+                        // Thay doi
                         cmd.ExecuteNonQuery();
                         MessageBox.Show("Thêm sinh viên thành công!", "Thông báo");
 
-                        // Cập nhật lại DataGridView ngay sau khi thêm
+                        // Cập nhật 
                         btnHienThi_Click(sender, e);
                     }
                 }
@@ -105,23 +101,21 @@ namespace WinFormsApp
                 {
                     conn.Open();
 
-                    // Câu lệnh SQL INSERT sử dụng tham số (@MaSV, @HoTen...)
+                    // Input
                     string query = "DELETE FROM SinhVien WHERE MaSV = @MaSV";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                     {
-                        // Gán giá trị từ giao diện vào tham số
+                        // Gán giá trị
                         cmd.Parameters.AddWithValue("@MaSV", txtMaSV.Text);
                         cmd.Parameters.AddWithValue("@HoTen", txtTen.Text);
                         cmd.Parameters.AddWithValue("@NgaySinh", dtbNgaySinh.Value.Date);
                         cmd.Parameters.AddWithValue("@GioiTinh", GioiTinh.Text);
                         cmd.Parameters.AddWithValue("@Lop", txtLop.Text);
 
-                        // Thực thi lệnh thay đổi dữ liệu
                         cmd.ExecuteNonQuery();
                         MessageBox.Show("Xóa sinh viên thành công!", "Thông báo");
 
-                        // Cập nhật lại DataGridView ngay sau khi thêm
                         btnHienThi_Click(sender, e);
                     }
                 }
@@ -141,23 +135,19 @@ namespace WinFormsApp
                 {
                     conn.Open();
 
-                    // Câu lệnh SQL INSERT sử dụng tham số (@MaSV, @HoTen...)
                     string query = "UPDATE SinhVien SET HoTen = @HoTen, Lop = @Lop WHERE MaSV = @MaSV";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                     {
-                        // Gán giá trị từ giao diện vào tham số
                         cmd.Parameters.AddWithValue("@MaSV", txtMaSV.Text);
                         cmd.Parameters.AddWithValue("@HoTen", txtTen.Text);
                         cmd.Parameters.AddWithValue("@NgaySinh", dtbNgaySinh.Value.Date);
                         cmd.Parameters.AddWithValue("@GioiTinh", GioiTinh.Text);
                         cmd.Parameters.AddWithValue("@Lop", txtLop.Text);
 
-                        // Thực thi lệnh thay đổi dữ liệu
                         cmd.ExecuteNonQuery();
                         MessageBox.Show("Sửa sinh viên thành công!", "Thông báo");
 
-                        // Cập nhật lại DataGridView ngay sau khi thêm
                         btnHienThi_Click(sender, e);
                     }
                 }

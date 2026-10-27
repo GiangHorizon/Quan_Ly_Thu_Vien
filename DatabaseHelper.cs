@@ -6,7 +6,7 @@ namespace WinFormsApp
 {
     internal class DatabaseHelper
     {
-        private readonly string connString = "Host=localhost;Port=5432;Database=QuanLyTheSV_TV;Username=postgres;Password=giang2k6";
+        private readonly string connString = "Data Source=(localdb)\\MSSQLLocalDB;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Application Name=\"SQL Server Management Studio\";Command Timeout=0";
         
         public NpgsqlConnection GetConnection()
         {
