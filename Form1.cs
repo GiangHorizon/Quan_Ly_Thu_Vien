@@ -77,20 +77,7 @@ namespace WinFormsApp
             txtTimSV.Width = dgvSinhVien.Right - xTimSV;
             txtTimSV.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtTimSV.PlaceholderText = "Tên, Mã SV, Lớp, SĐT, Tình trạng...";
-            txtTimSV.TextChanged += (s, ev) =>
-            {
-                if (dgvSinhVien.DataSource is DataTable dt)
-                {
-                    string kw = txtTimSV.Text.Trim().Replace("'", "''");
-                    dt.DefaultView.RowFilter = string.IsNullOrEmpty(kw) ? "" :
-                        $"[Mã SV] LIKE '%{kw}%' OR [Họ Tên] LIKE '%{kw}%' OR [Lớp] LIKE '%{kw}%' OR " +
-                        $"ISNULL([Khoa], '') LIKE '%{kw}%' OR ISNULL([Số Điện Thoại], '') LIKE '%{kw}%' OR " +
-                        $"ISNULL([Mã Thẻ SV], '') LIKE '%{kw}%' OR ISNULL([Thẻ SV], 'Chưa có thẻ') LIKE '%{kw}%' OR " +
-                        $"ISNULL([Mã Thẻ TV], '') LIKE '%{kw}%' OR ISNULL([Thẻ Thư Viện], 'Chưa có thẻ') LIKE '%{kw}%'";
-                    dgvSinhVien.ClearSelection();
-                    lastClickedRowIndexSV = -1;
-                }
-            };
+            txtTimSV.TextChanged += txtTimSV_TextChanged;
             tabSinhVien.Controls.Add(txtTimSV);
 
             // --- 2. TẠO NÚT LÀM MỚI & THANH TÌM KIẾM TAB 2 (Căn thẳng hàng theo nút Xóa Thẻ SV) ---
@@ -112,7 +99,7 @@ namespace WinFormsApp
                 txtTimTSV.Width = dgvTheSV.Right - xTimTSV;
                 txtTimTSV.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
                 txtTimTSV.PlaceholderText = "Mã thẻ, Mã SV, Tình trạng...";
-                txtTimTSV.TextChanged += (s, ev) =>
+                txtTimTSV.TextChanged += txtTimTSV_TextChanged;
                 {
                     if (dgvTheSV.DataSource is DataTable dt)
                     {
@@ -145,7 +132,7 @@ namespace WinFormsApp
                 txtTimTTV.Width = dgvTheTV.Right - xTimTTV;
                 txtTimTTV.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
                 txtTimTTV.PlaceholderText = "Mã thẻ, Mã SV, Tình trạng...";
-                txtTimTTV.TextChanged += (s, ev) =>
+                txtTimTTV.TextChanged += txtTimTTV_TextChanged;
                 {
                     if (dgvTheTV.DataSource is DataTable dt)
                     {
@@ -558,8 +545,22 @@ namespace WinFormsApp
         }
 
         // ==============================================================
-        // XÓA TRẮNG FORM TAB 1 (Làm Mới)
+        // TÌM KIẾM & XÓA TRẮNG FORM TAB 1 (Làm Mới)
         // ==============================================================
+        private void txtTimSV_TextChanged(object? sender, EventArgs e)
+        {
+            if (dgvSinhVien.DataSource is DataTable dt)
+            {
+                string kw = txtTimSV.Text.Trim().Replace("'", "''");
+                dt.DefaultView.RowFilter = string.IsNullOrEmpty(kw) ? "" :
+                    $"[Mã SV] LIKE '%{kw}%' OR [Họ Tên] LIKE '%{kw}%' OR [Lớp] LIKE '%{kw}%' OR " +
+                    $"ISNULL([Khoa], '') LIKE '%{kw}%' OR ISNULL([Số Điện Thoại], '') LIKE '%{kw}%' OR " +
+                    $"ISNULL([Mã Thẻ SV], '') LIKE '%{kw}%' OR ISNULL([Thẻ SV], 'Chưa có thẻ') LIKE '%{kw}%' OR " +
+                    $"ISNULL([Mã Thẻ TV], '') LIKE '%{kw}%' OR ISNULL([Thẻ Thư Viện], 'Chưa có thẻ') LIKE '%{kw}%'";
+                dgvSinhVien.ClearSelection();
+                lastClickedRowIndexSV = -1;
+            }
+        }
         private void btnLamMoi_Click(object? sender, EventArgs e)
         {
             txtTimSV.Clear(); // Xóa từ khóa tìm kiếm (bảng sẽ tự bung ra đầy đủ)

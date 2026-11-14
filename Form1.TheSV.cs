@@ -232,5 +232,17 @@ namespace WinFormsApp
             lastClickedRowIndexTSV = -1;
             LoadTheSVData();
         }
+        // Hàm tìm kiếm riêng của Tab 2 (Thẻ Sinh Viên)
+        private void txtTimTSV_TextChanged(object? sender, EventArgs e)
+        {
+            if (dgvTheSV.DataSource is DataTable dt)
+            {
+                string kw = txtTimTSV.Text.Trim().Replace("'", "''");
+                dt.DefaultView.RowFilter = string.IsNullOrEmpty(kw) ? "" :
+                    $"[Mã Thẻ SV] LIKE '%{kw}%' OR [Mã SV] LIKE '%{kw}%' OR [Tình Trạng] LIKE '%{kw}%' OR ISNULL([Ghi Chú], '') LIKE '%{kw}%'";
+                dgvTheSV.ClearSelection();
+                lastClickedRowIndexTSV = -1;
+            }
+        }
     }
 }

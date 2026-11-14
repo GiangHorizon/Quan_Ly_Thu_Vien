@@ -240,5 +240,17 @@ namespace WinFormsApp
             lastClickedRowIndexTTV = -1;
             LoadTheTVData();
         }
+        // Hàm tìm kiếm riêng của Tab 3 (Thẻ Thư Viện)
+        private void txtTimTTV_TextChanged(object? sender, EventArgs e)
+        {
+            if (dgvTheTV.DataSource is DataTable dt)
+            {
+                string kw = txtTimTTV.Text.Trim().Replace("'", "''");
+                dt.DefaultView.RowFilter = string.IsNullOrEmpty(kw) ? "" :
+                    $"[Mã Thẻ TV] LIKE '%{kw}%' OR [Mã SV] LIKE '%{kw}%' OR [Tình Trạng] LIKE '%{kw}%'";
+                dgvTheTV.ClearSelection();
+                lastClickedRowIndexTTV = -1;
+            }
+        }
     }
 }
